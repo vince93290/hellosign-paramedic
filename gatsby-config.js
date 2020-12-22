@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'hellosign-paramedic',
-    siteUrl: ''
+    siteUrl: 'paramedic'
   },
   plugins: [
     'gatsby-plugin-emotion',

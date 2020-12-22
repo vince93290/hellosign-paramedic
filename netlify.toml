@@ -1,5 +1,4 @@
 # netlify.toml
 
 [build]
-  functions = "lambda"
-  publish = "src"
+  functions = "lambda-src"
