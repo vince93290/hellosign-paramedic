@@ -12,12 +12,18 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "clean": "gatsby clean",
+    "lambda-serve": "netlify-lambda serve lambda-src",
+    "lambda-build": "netlify-lambda build lambda-src",
+    "build-dev": "NODE_ENV=production webpack && npm run lambda-build",
+    "dev": "NODE_ENV=development concurrently \"webpack-dev-server --content-base src/\" \"npm run lambda-serve\""
   },
   "license": "0BSD",
   "dependencies": {
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "gatsby": "^2.26.1",
     "gatsby-image": "^2.8.0",
     "gatsby-plugin-emotion": "^5.1.0",
@@ -25,7 +31,14 @@
     "gatsby-plugin-sitemap": "^2.9.0",
     "gatsby-source-filesystem": "^2.8.0",
     "gatsby-transformer-sharp": "^2.9.0",
+    "hellosign-embedded": "^2.9.0",
+    "hellosign-sdk": "^1.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "netlify-lambda": "^2.0.2",
+    "standard": "^16.0.3",
+    "webpack-cli": "^4.2.0"
   }
 }
