@@ -8,13 +8,12 @@ const client = new HelloSign()
 const ContactForm = () => {
   const [errMsg, setErrMsg] = useState({
     name: false,
-    mail: false
+    entreprise: false
   })
   const [dataForm, setDataForm] = useState({
     name: '',
-    mail: '',
-    phone: '',
-    subject: ''
+    entreprise: '',
+    lieu: ''
   })
 
   const [success, setSuccess] = useState(false)
@@ -28,21 +27,16 @@ const ContactForm = () => {
   }
 
   const validateData = () => {
-    const { name, mail } = dataForm
-
-    function validateEmail (mail) {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(mail).toLowerCase())
-    }
+    const { name, entreprise } = dataForm
 
     setErrMsg({
       name: name.length === 0,
-      mail: !validateEmail(mail)
+      entreprise: entreprise.length === 0
     })
 
     if (name.length < 1) {
       return false
-    } else if (!validateEmail(mail)) {
+    } else if (name.length < 1) {
       return false
     } else return true
   }
@@ -52,14 +46,14 @@ const ContactForm = () => {
     e.preventDefault()
     const isValid = validateData()
 
-    const { name, mail, subject, phone } = dataForm
+    const { name, entreprise, lieu } = dataForm
 
     if (isValid) {
-      const payload = { name, mail, phone, subject }
+      const payload = { name, entreprise, lieu }
 
       axios
         .post('http://localhost:9000/hellosign', {
-          body: JSON.stringify(payload),
+          body: payload,
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -70,16 +64,14 @@ const ContactForm = () => {
           client.open(res.data.url, {
             clientId: 'd19619b3fa8d9657c0e9629013f4e514'
           })
-          if (res.ok) {
-            setSuccess(true)
-            setDataForm({
-              name: '',
-              mail: '',
-              phone: '',
-              subject: ''
-            })
-            setTimeout(() => setSuccess(false), 5000)
-          }
+
+          setSuccess(true)
+          setDataForm({
+            name: '',
+            entreprise: '',
+            lieu: ''
+          })
+          setTimeout(() => setSuccess(false), 5000)
         })
         .catch(err => {
           // console.log("not send", err);
@@ -91,7 +83,7 @@ const ContactForm = () => {
     <>
       <Title id='contact'>Paramédic hellosign Test</Title>
       <div style={{ height: '2em' }}>
-        {errMsg.name || errMsg.mail ? (
+        {errMsg.name || errMsg.entreprise ? (
           <ErrorMessage>
             Veuillez remplir correctement les champs en rouge !!!
           </ErrorMessage>
@@ -100,7 +92,7 @@ const ContactForm = () => {
       <Form onSubmit={sendMsg}>
         <InputsWrapper>
           <LabelWrapper>
-            <p>Nom*</p>
+            <p>Representant*</p>
             <StyledInput
               name='name'
               value={dataForm.name}
@@ -110,30 +102,21 @@ const ContactForm = () => {
             />
           </LabelWrapper>
           <LabelWrapper>
-            <p>Adresse éléctronique*</p>
+            <p>Nom de l'entreprise*</p>
             <StyledInput
-              name='mail'
-              value={dataForm.mail}
-              type='mail'
+              name='entreprise'
+              value={dataForm.entreprise}
+              type='text'
               onChange={handleChange}
-              error={errMsg.mail}
+              error={errMsg.entreprise}
             />
           </LabelWrapper>
           <LabelWrapper>
-            <p>Téléphone</p>
+            <p>Lieu</p>
             <StyledInput
-              name='phone'
+              name='lieu'
               size='10'
-              value={dataForm.phone}
-              type='tel'
-              onChange={handleChange}
-            />
-          </LabelWrapper>
-          <LabelWrapper>
-            <p>Sujet</p>
-            <StyledInput
-              name='subject'
-              value={dataForm.subject}
+              value={dataForm.lieu}
               type='text'
               onChange={handleChange}
             />

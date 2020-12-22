@@ -29,22 +29,39 @@ exports.handler = async (event, context, callback) => {
   const opts = {
     test_mode: 1,
     clientId: 'd19619b3fa8d9657c0e9629013f4e514',
+    template_id: 'e940c5e6353b6ca5b42431da70a8f19756947878',
     subject: 'NDA with Acme Co.',
     message: 'Please sign this NDA and then we can discuss more.?',
     signers: [
       {
         email_address: 'vince93290@hotmail.fr',
-        name: 'vincent'
+        name: 'vincent',
+        role: 'user'
       }
     ],
-    file_url: [
-      'https://madalenacouture.fr/wp-content/uploads/2020/12/contrat.pdf'
+    custom_fields: [
+      {
+        name: 'entreprise',
+        value: data.body.entreprise,
+        editor: 'user'
+      },
+      {
+        name: 'represantant',
+        value: data.body.name,
+        editor: 'user'
+      },
+      {
+        name: 'lieu',
+        value: data.body.lieu,
+        editor: 'user'
+      }
     ]
   }
 
   const signature = await hellosign.signatureRequest
-    .createEmbedded(opts)
+    .createEmbeddedWithTemplate(opts)
     .then(res => {
+      console.log(res)
       return res.signature_request.signatures
     })
 
