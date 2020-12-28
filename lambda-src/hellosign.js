@@ -15,7 +15,7 @@ exports.handler = async (event, context, callback) => {
   if (event.httpMethod !== 'POST' || !event.body) {
     // console.log("invalid http method log");
     return {
-      statusCode: 200,
+      statusCode: 200, // tres important
       headers,
       body: JSON.stringify({
         status: 'This was not a POST request!'
