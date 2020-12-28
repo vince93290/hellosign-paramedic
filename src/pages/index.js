@@ -3,7 +3,9 @@ import axios from 'axios'
 import HelloSign from 'hellosign-embedded'
 import React, { useState } from 'react'
 
-const client = new HelloSign()
+const client = new HelloSign({
+  clientId: 'd19619b3fa8d9657c0e9629013f4e514'
+})
 
 const ContactForm = () => {
   const [errMsg, setErrMsg] = useState({
@@ -61,9 +63,7 @@ const ContactForm = () => {
         })
         .then(res => {
           console.log('sended:', res)
-          client.open(res.data.url, {
-            clientId: 'd19619b3fa8d9657c0e9629013f4e514'
-          })
+          client.open(res.data.url)
 
           setSuccess(true)
           setDataForm({
