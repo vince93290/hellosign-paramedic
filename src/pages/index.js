@@ -62,7 +62,7 @@ const ContactForm = () => {
 
       axios
         .post(
-          'https://zen-pare-1776e7.netlify.app/.netlify/functions/helloSign',
+          'https://zen-pare-1776e7.netlify.app/.netlify/functions/hellosign',
           {
             body: payload,
             headers: {
