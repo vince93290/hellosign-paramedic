@@ -59,13 +59,16 @@ const ContactForm = () => {
       const payload = { name, entreprise, lieu }
 
       axios
-        .post('http://localhost:9000/hellosign', {
-          body: payload,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+        .post(
+          'https://app.netlify.com/sites/zen-pare-1776e7/functions/hellosign',
+          {
+            body: payload,
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
           }
-        })
+        )
         .then(res => {
           console.log('sended:', res)
           client.open(res.data.url)
