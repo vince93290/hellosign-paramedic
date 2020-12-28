@@ -1,11 +1,16 @@
 import styled from '@emotion/styled'
 import axios from 'axios'
-import HelloSign from 'hellosign-embedded'
 import React, { useState } from 'react'
+const isBrowser = typeof window !== 'undefined'
+const HelloSign = isBrowser ? require('hellosign-embedded') : undefined
 
-const client = new HelloSign({
-  clientId: 'd19619b3fa8d9657c0e9629013f4e514'
-})
+let client
+
+if (HelloSign) {
+  client = new HelloSign({
+    clientId: 'd19619b3fa8d9657c0e9629013f4e514'
+  })
+}
 
 const ContactForm = () => {
   const [errMsg, setErrMsg] = useState({
