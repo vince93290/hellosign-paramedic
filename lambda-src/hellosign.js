@@ -34,8 +34,8 @@ exports.handler = async (event, context, callback) => {
     message: 'Please sign this NDA and then we can discuss more.?',
     signers: [
       {
-        email_address: 'vince93290@hotmail.fr',
-        name: 'vincent',
+        email_address: data.body.email,
+        name: data.body.name,
         role: 'user'
       }
     ],
@@ -48,11 +48,6 @@ exports.handler = async (event, context, callback) => {
       {
         name: 'represantant',
         value: data.body.name,
-        editor: 'user'
-      },
-      {
-        name: 'lieu',
-        value: data.body.lieu,
         editor: 'user'
       }
     ]
