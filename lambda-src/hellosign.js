@@ -30,8 +30,8 @@ exports.handler = async (event, context, callback) => {
     test_mode: 1,
     clientId: 'd19619b3fa8d9657c0e9629013f4e514',
     template_id: 'e940c5e6353b6ca5b42431da70a8f19756947878',
-    subject: 'NDA with Acme Co.',
-    message: 'Please sign this NDA and then we can discuss more.?',
+    subject: `Contrat de ${data.body.name} ${data.body.firstname} pour la société ${data.body.entreprise}`,
+    message: `Un contrat de prestation de services Paramedic vient d'etres signer par ${data.body.firstname} ${data.body.name} pour la société ${data.body.entreprise} .`,
     signers: [
       {
         email_address: data.body.email,
@@ -53,18 +53,28 @@ exports.handler = async (event, context, callback) => {
     ]
   }
 
+  let signatureRequestId
+
   const signature = await hellosign.signatureRequest
     .createEmbeddedWithTemplate(opts)
     .then(res => {
       console.log(res)
+      signatureRequestId = res.signature_request.signature_request_id
       return res.signature_request.signatures
     })
 
   if (signature) {
+    const downloadUrl = await hellosign.signatureRequest
+      .download(signatureRequestId, { get_url: true })
+      .then(res => {
+        console.log(res)
+        return console.log(res)
+      })
+
     const url = await hellosign.embedded
       .getSignUrl(signature[0].signature_id)
       .then(result => {
-        console.log('The sign url is: ' + result.embedded.sign_url)
+        console.log('The sign url is: ' + result)
         return result.embedded.sign_url
       })
 
@@ -74,7 +84,8 @@ exports.handler = async (event, context, callback) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        url: url
+        url: url,
+        downloadLink: downloadUrl
       })
     }
   }
