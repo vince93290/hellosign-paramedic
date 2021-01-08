@@ -24,14 +24,19 @@ exports.handler = async (event, context, callback) => {
   }
 
   const data = JSON.parse(event.body)
-  console.log(data)
+  // console.log(data)
 
   const opts = {
     test_mode: 1,
     clientId: 'd19619b3fa8d9657c0e9629013f4e514',
     template_id: 'e940c5e6353b6ca5b42431da70a8f19756947878',
     subject: `Contrat de ${data.body.name} ${data.body.firstname} pour la société ${data.body.entreprise}`,
-    message: `Un contrat de prestation de services Paramedic vient d'etres signer par ${data.body.firstname} ${data.body.name} pour la société ${data.body.entreprise} .`,
+    message: `Un contrat de prestation de services Paramedic (${
+      data.body.isTaxi ? 'Taxi' : 'Ambulance'
+    }) vient d'etres signer par ${data.body.firstname} ${
+      data.body.name
+    } pour la société ${data.body.entreprise} .
+    `,
     signers: [
       {
         email_address: data.body.email,
@@ -39,6 +44,7 @@ exports.handler = async (event, context, callback) => {
         role: 'user'
       }
     ],
+    ccs: [{ email_address: 'vince93290@hotmail.fr', role_name: 'me' }],
     custom_fields: [
       {
         name: 'entreprise',
@@ -53,24 +59,14 @@ exports.handler = async (event, context, callback) => {
     ]
   }
 
-  let signatureRequestId
-
   const signature = await hellosign.signatureRequest
     .createEmbeddedWithTemplate(opts)
     .then(res => {
       console.log(res)
-      signatureRequestId = res.signature_request.signature_request_id
       return res.signature_request.signatures
     })
 
   if (signature) {
-    const downloadUrl = await hellosign.signatureRequest
-      .download(signatureRequestId, { get_url: true })
-      .then(res => {
-        console.log(res)
-        return console.log(res)
-      })
-
     const url = await hellosign.embedded
       .getSignUrl(signature[0].signature_id)
       .then(result => {
@@ -84,8 +80,7 @@ exports.handler = async (event, context, callback) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        url: url,
-        downloadLink: downloadUrl
+        url: url
       })
     }
   }
