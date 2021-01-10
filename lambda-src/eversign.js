@@ -29,7 +29,9 @@ exports.handler = async (event, context, callback) => {
     template_id: data.body.isTaxi
       ? 'bf3bfc2a90a0408287b0b1ab3930f597'
       : 'f11c974e6c2743229ae8fc16f4b95217',
-    title: `Contrat de ${data.body.name} ${data.body.firstname} pour la société ${data.body.entreprise}`,
+    title: `Contrat (${data.body.isTaxi ? 'Taxi' : 'Ambulance'}) de ${
+      data.body.name
+    } ${data.body.firstname} pour la société ${data.body.entreprise}`,
     message: `Un contrat de prestation de services Paramedic (${
       data.body.isTaxi ? 'Taxi' : 'Ambulance'
     }) vient d'etres signer par ${data.body.firstname} ${
