@@ -25,7 +25,7 @@ exports.handler = async (event, context, callback) => {
   // console.log(data)
 
   const opts = JSON.stringify({
-    sandbox: 1,
+    sandbox: 0,
     template_id: data.body.isTaxi
       ? 'bf3bfc2a90a0408287b0b1ab3930f597'
       : 'f11c974e6c2743229ae8fc16f4b95217',
