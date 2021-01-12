@@ -56,6 +56,12 @@ exports.handler = async (event, context, callback) => {
         name: 'Paramedic.tech',
         email: 'paramedic.dev@gmail.com',
         language: 'fr'
+      },
+      {
+        role: 'Assistant',
+        name: 'Paramedic.tech',
+        email: 'support@paramedic.tech',
+        language: 'fr'
       }
     ],
     fields: [
