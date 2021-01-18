@@ -65,7 +65,7 @@ exports.handler = async (event, context, callback) => {
   }
 
   const opts = JSON.stringify({
-    sandbox: 1,
+    sandbox: 0,
     template_id: contractSelected.id,
     title: `Contrat (${contractSelected.name}) de ${
       data.body.name
