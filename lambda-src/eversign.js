@@ -97,7 +97,7 @@ exports.handler = async (event, context, callback) => {
       },
       {
         role: 'Assistant',
-        name: 'Paramedic.tech',
+        name: 'Paramedic support',
         email: 'support@paramedic.tech',
         language: 'fr'
       }
