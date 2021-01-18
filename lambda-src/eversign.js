@@ -21,31 +21,69 @@ exports.handler = async (event, context, callback) => {
     }
   }
 
+  const mixedData = {
+    id: '021a97a6d9d14cbea6f069b41b3896fb',
+    name: 'Ambulance | Taxi',
+    entreprise: 'entreprise_aKKZ5byZF8bac3',
+    adresse: 'adresse_Ij74t7rOMH09B1',
+    fonction: 'fonction_CuF34M24z4WSNf',
+    telephone: 'telephone_2gDaYlAL8b4ZvY',
+    email: 'email_UJz1tHcv9Qca1U'
+  }
+
+  const ambulanceData = {
+    id: '62f4ddebe5424dd6ac639e460df05bad',
+    name: 'Ambulance',
+    entreprise: 'entreprise_QFYEPbkVT4BPKm',
+    adresse: 'adresse_nTXoSqg9yrMMlt',
+    fonction: 'fonction_VdOcIerADqLYU5',
+    telephone: 'telephone_QTqVx8v7Uq7Jcj',
+    email: 'email_xrtUnLKqc0ZFej'
+  }
+
+  const taxiData = {
+    id: 'e5f2c007c19e4adc8e1402e6fc5b5796',
+    name: 'Taxi',
+    entreprise: 'entreprise_XSu2PBDJxxvLXW',
+    adresse: 'adresse_OHHrfidfwQtwJK',
+    fonction: 'fonction_wg6iZCydy7uPFC',
+    telephone: 'telephone_ZICxCph2kaQHUE',
+    email: 'email_WkZorkIuQrsmMH'
+  }
+
   const data = JSON.parse(event.body)
   // console.log(data)
 
+  let contractSelected
+
+  if (data.body.contractType === 'mixed') {
+    contractSelected = mixedData
+  } else if (data.body.contractType === 'ambulance') {
+    contractSelected = ambulanceData
+  } else {
+    contractSelected = taxiData
+  }
+
   const opts = JSON.stringify({
-    sandbox: 0,
-    template_id: data.body.isTaxi
-      ? 'bf3bfc2a90a0408287b0b1ab3930f597'
-      : 'f11c974e6c2743229ae8fc16f4b95217',
-    title: `Contrat (${data.body.isTaxi ? 'Taxi' : 'Ambulance'}) de ${
+    sandbox: 1,
+    template_id: contractSelected.id,
+    title: `Contrat (${contractSelected.name}) de ${
       data.body.name
     } ${data.body.firstname} pour la société ${data.body.entreprise}`,
     message: `Un contrat de prestation de services Paramedic (${
-      data.body.isTaxi ? 'Taxi' : 'Ambulance'
+      contractSelected.name
     }) vient d'etres signer par ${data.body.firstname} ${
       data.body.name
     } pour la société ${data.body.entreprise} .
     `,
-    custom_requester_name: 'Paramedic',
-    custom_requester_email: '',
+    custom_requester_name: 'Paramedic.tech',
+    custom_requester_email: 'support@paramedic.tech',
     client: '',
     embedded_signing_enabled: 1,
     signers: [
       {
         role: 'user',
-        name: data.body.name,
+        name: ` ${data.body.firstname} ${data.body.name}`,
         email: data.body.email,
         language: 'fr'
       }
@@ -66,16 +104,24 @@ exports.handler = async (event, context, callback) => {
     ],
     fields: [
       {
-        identifier: data.body.isTaxi
-          ? 'entreprise_OqumJW0ZU0Dlzx'
-          : 'entreprise_sS85nmxnS0WEKg',
+        identifier: contractSelected.entreprise,
         value: data.body.entreprise
       },
       {
-        identifier: data.body.isTaxi
-          ? 'name_4K5veKLCY5LOHR'
-          : 'name_upC2i7hHBt3aSm',
-        value: `${data.body.name} ${data.body.firstname}`
+        identifier: contractSelected.adresse,
+        value: data.body.completeAdress
+      },
+      {
+        identifier: contractSelected.fonction,
+        value: data.body.fonction
+      },
+      {
+        identifier: contractSelected.telephone,
+        value: data.body.phone
+      },
+      {
+        identifier: contractSelected.email,
+        value: data.body.email
       }
     ]
   })
