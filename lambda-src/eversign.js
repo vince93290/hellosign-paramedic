@@ -67,14 +67,8 @@ exports.handler = async (event, context, callback) => {
   const opts = JSON.stringify({
     sandbox: 0,
     template_id: contractSelected.id,
-    title: `Contrat (${contractSelected.name}) de ${
-      data.body.name
-    } ${data.body.firstname} pour la société ${data.body.entreprise}`,
-    message: `Un contrat de prestation de services Paramedic (${
-      contractSelected.name
-    }) vient d'etres signer par ${data.body.firstname} ${
-      data.body.name
-    } pour la société ${data.body.entreprise} .
+    title: `Contrat (${contractSelected.name}) de ${data.body.name} ${data.body.firstname} pour la société ${data.body.entreprise}`,
+    message: `Un contrat de prestation de services Paramedic (${contractSelected.name}) vient d'etres signer par ${data.body.firstname} ${data.body.name} pour la société ${data.body.entreprise} .
     `,
     custom_requester_name: 'Paramedic.tech',
     custom_requester_email: 'support@paramedic.tech',
@@ -89,12 +83,6 @@ exports.handler = async (event, context, callback) => {
       }
     ],
     recipients: [
-      {
-        role: 'Assistant',
-        name: 'Paramedic.tech',
-        email: 'paramedic.dev@gmail.com',
-        language: 'fr'
-      },
       {
         role: 'support',
         name: 'Paramedic support',
