@@ -1,10 +1,9 @@
 # netlify.toml
-
 [build]
-  functions = "lambda"
+functions = "lambda"
 
 [[headers]]
-  for = "/*"
+for = "/*"
 
 [headers.values]
-  Access-Control-Allow-Origin = "*"
+Access-Control-Allow-Origin = "*"
