@@ -3,6 +3,16 @@
 require('dotenv').config()
 const axios = require('axios')
 
+let HEADERS = {
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin',
+  'Content-Type': 'application/json', //optional
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Max-Age': '8640'
+}
+
+HEADERS['Access-Control-Allow-Origin'] = '*'
+HEADERS['Vary'] = 'Origin'
+
 exports.handler = async (event, context, callback) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -14,7 +24,7 @@ exports.handler = async (event, context, callback) => {
     // console.log("invalid http method log");
     return {
       statusCode: 200, // tres important
-      headers,
+      HEADERS,
       body: JSON.stringify({
         status: 'This was not a POST request!'
       })
@@ -123,7 +133,7 @@ exports.handler = async (event, context, callback) => {
       console.log('sended:', res)
       return {
         statusCode: 200,
-        headers,
+        HEADERS,
         body: JSON.stringify({
           url: res.data.signers[0].embedded_signing_url,
           hash: res.data.document_hash
