@@ -78,7 +78,7 @@ exports.handler = async (event, context, callback) => {
     sandbox: 0,
     template_id: contractSelected.id,
     title: `Contrat (${contractSelected.name}) de ${data.body.name} ${data.body.firstname} pour la société ${data.body.entreprise}`,
-    message: `Un contrat de prestation de services Paramedic (${contractSelected.name}) vient d'etres signer par ${data.body.firstname} ${data.body.name} pour la société ${data.body.entreprise} .
+    message: `Un contrat de prestation de services Paramedic (${contractSelected.name}) vient d'êtres créé pour ${data.body.firstname} ${data.body.name} de la société ${data.body.entreprise}.
     `,
     custom_requester_name: 'Paramedic.tech',
     custom_requester_email: 'support@paramedic.tech',
